@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maersk Tracking Clone</title>
+    <style>
+        :root {
+            --maersk-blue: #00243D;
+            --maersk-light-blue: #42B0D5;
+            --bg-gray: #F2F2F2;
+            --border-gray: #D9D9D9;
+            --text-gray: #595959;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            border-bottom: 1px solid var(--border-gray);
+            padding: 10px 10% ;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .logo-container img {
+            height: 40px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .auth-buttons button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid var(--maersk-light-blue);
+        }
+
+        .btn-login { background: var(--maersk-light-blue); color: white; border: none !important; }
+        .btn-register { background: white; color: #333; margin-right: 5px; }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        /* Shipment Header Card */
+        .shipment-card {
+            background: var(--maersk-light-blue);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .shipment-info {
+            display: flex;
+            gap: 40px;
+            margin-left: 20px;
+        }
+
+        .shipment-info label { font-size: 12px; display: block; margin-bottom: 5px; }
+        .shipment-info span { font-size: 24px; font-weight: bold; }
+
+        /* Timeline Box */
+        .tracking-details {
+            border: 1px solid var(--border-gray);
+            border-top: none;
+            padding: 20px;
+        }
+
+        .status-summary {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-gray);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--maersk-light-blue);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 2px solid var(--maersk-light-blue);
+            border-radius: 50%;
+        }
+
+        /* Sidebar */
+        .sidebar-box {
+            border: 1px solid var(--border-gray);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 18px; }
+        .links-rapidos a { color: var(--maersk-light-blue); text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; }
+
+        .btn-add {
+            background: var(--maersk-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .feedback-faces {
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="top-nav">
+        <div class="logo-container">
+            <strong>MAERSK</strong>
+        </div>
+        <div class="auth-buttons">
+            <span>PT | Pesquisar | Notificações | Suporte</span>
+            <button class="btn-register">Cadastrar-se</button>
+            <button class="btn-login">Login</button>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li>Preços</li>
+            <li>Reservar</li>
+            <li>Cronogramas</li>
+            <li>Rastrear</li>
+            <li>Gerenciar</li>
+            <li>Soluções de logística</li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <main>
+        <div class="shipment-card">
+            <div class="shipment-info">
+                <div><label>Contêiner</label><span>TRHU1756455</span></div>
+                <div><label>De</label><span>NAPIER</span></div>
+                <div><label>Para</label><span>MUNDRA</span></div>
+            </div>
+        </div>
+
+        <div class="tracking-details">
+            <div class="status-summary">
+                <div>
+                    <strong>TRHU1756455</strong> | 20' Dry Standard
+                </div>
+                <div style="color: var(--text-gray); font-size: 12px;">
+                    Última atualização: 1 day atrás ⓘ
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 50px; margin-bottom: 20px;">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-gray);">Data Prevista de Chegada</div>
+                    <strong>18 Mar 2026 00:30</strong>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-gray);">Último local</div>
+                    <strong>Partida do navio • TANJUNG PELEPAS, MALAYSIA • 08 Mar 2026</strong>
+                </div>
+            </div>
+
+            <p style="font-size: 12px; color: var(--text-gray); font-style: italic;">Observação: Todos os horários são fornecidos no horário local, salvo indicação em contrário.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div><strong>Napier</strong><br><small>CC Napier Container Park NCP</small></div>
+                    <div style="text-align: right;">Gate out<br><small>Vazio<br>15 Jan 2026 10:46</small></div>
+                </div>
+                <div class="timeline-item">
+                    <div><strong>NAPIER</strong><br><small>NAPIER CONTAINER TERMINAL</small></div>
+                    <div style="text-align: right;">Gate in<br><small>16 Jan 2026 12:06</small></div>
+                </div>
+                <div class="timeline-item">
+                    <div>Carregar em MONACO / 601N</div>
+                    <div style="text-align: right;"><small>19 Jan 2026 16:36</small></div>
+                </div>
+                <div class="timeline-item">
+                    <div>Partida do navio (MONACO / 601N)</div>
+                    <div style="text-align: right;"><small>20 Jan 2026 05:44</small></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <aside>
+        <div class="sidebar-box links-rapidos">
+            <h3>Links Rápidos</h3>
+            <a href="#">Detalhes do embarque →</a>
+            <a href="#">Manage bookings →</a>
+        </div>
+
+        <div class="sidebar-box">
+            <h3>Adicionar à sua reserva</h3>
+            <p style="font-size: 13px; color: var(--text-gray);">Oferecemos uma gama de serviços adicionais para fornecer transporte confiável...</p>
+            <button class="btn-add">Adicionar</button>
+        </div>
+
+        <div class="sidebar-box">
+            <p style="font-size: 14px;">Qual é o seu grau de satisfação com a qualidade das informações?</p>
+            <div class="feedback-faces">
+                <span>☹️</span><span>🙁</span><span>😐</span><span>🙂</span><span>😊</span>
+            </div>
+            <button class="btn-add" style="background: var(--maersk-blue);">Enviar feedback</button>
+        </div>
+    </aside>
+</div>
+
+</body>
+</html>
