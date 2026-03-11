@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneTrack 365 - Track Shipments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .brand-green { background-color: #D1F366; } /* Precise lime color from image */
+        .brand-green-text { color: #6AB04C; } /* Darker green for text/logo */
+        .bg-container { background-color: #F4F7F4; } /* Subtle grayish-green tint */
+    </style>
+</head>
+<body class="bg-white p-8">
+
+    <div class="mb-16">
+        <div class="flex items-center gap-1">
+            <div class="brand-green-text font-bold text-2xl flex items-center">
+                <span class="text-3xl">🌐</span> OneTrack
+            </div>
+            <span class="text-gray-900 font-bold text-2xl">365</span>
+        </div>
+    </div>
+
+    <div class="text-center mb-12">
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            Track your shipments in real time
+        </h1>
+        <p class="text-gray-500 text-xl">
+            Effortlessly track your shipment's progress from departure to arrival
+        </p>
+    </div>
+
+    <div class="max-w-7xl mx-auto bg-container rounded-lg p-10">
+        
+        <div class="flex gap-4 mb-8">
+            <button class="brand-green flex items-center gap-2 px-6 py-3 rounded-lg border border-transparent shadow-sm">
+                <span class="text-xl">🚢</span>
+                <span class="font-semibold text-gray-900">Ocean Freight</span>
+            </button>
+            
+            <button class="bg-transparent flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-colors">
+                <span class="text-xl">✈️</span>
+                <span class="font-semibold text-gray-600">Air Freight</span>
+            </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 items-stretch">
+            <div class="relative flex-grow">
+                <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input type="text" 
+                       placeholder="Enter Container/BL Number" 
+                       class="w-full pl-12 pr-4 py-5 rounded-lg border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-lime-500 outline-none text-gray-700 text-lg shadow-sm">
+            </div>
+
+            <button class="brand-green text-gray-700 font-bold px-10 py-5 rounded-lg hover:brightness-95 transition-all shadow-sm">
+                Track Shipment
+            </button>
+            
+            <button class="bg-white text-green-600 font-bold px-10 py-5 rounded-lg border border-gray-300 hover:bg-gray-50 transition-all shadow-sm">
+                Import CSV
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
