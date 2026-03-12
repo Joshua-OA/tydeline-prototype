@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logo from "../assets/tydeline-cropped.png";
 
 const SHIPMENTS = [
   {
@@ -11,6 +12,7 @@ const SHIPMENTS = [
     eta: "18 Mar 2026",
     lastEvent: "Vessel departure — Tanjung Pelepas",
     progress: 75,
+    completed: false,
   },
   {
     bl: "MAEU987654321",
@@ -22,6 +24,7 @@ const SHIPMENTS = [
     eta: "09 Mar 2026",
     lastEvent: "Vessel arrival — Durban",
     progress: 100,
+    completed: true,
   },
   {
     bl: "HLCU223344556",
@@ -33,128 +36,205 @@ const SHIPMENTS = [
     eta: "02 Apr 2026",
     lastEvent: "Gate in — Rotterdam ECT",
     progress: 15,
+    completed: false,
   },
 ];
+
+type Tab = "upcoming" | "completed";
 
 interface DashboardProps {
   plan: string;
   onLogout: () => void;
 }
 
-export default function Dashboard({ plan, onLogout }: DashboardProps) {
+export default function Dashboard({ onLogout }: DashboardProps) {
   const [searchValue, setSearchValue] = useState("");
+  const [activeTab, setActiveTab] = useState<Tab>("upcoming");
 
-  const filtered = SHIPMENTS.filter(
+  const tabFiltered = SHIPMENTS.filter((s) =>
+    activeTab === "completed" ? s.completed : !s.completed
+  );
+
+  const filtered = tabFiltered.filter(
     (s) =>
       !searchValue ||
       s.bl.toLowerCase().includes(searchValue.toLowerCase()) ||
       s.vessel.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+  const upcomingCount = SHIPMENTS.filter((s) => !s.completed).length;
+  const completedCount = SHIPMENTS.filter((s) => s.completed).length;
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top bar */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-lg font-bold text-gray-900">Tydeline</h1>
-            <span className="text-xs font-medium text-[#0753BB] bg-blue-50 px-2 py-0.5 rounded-full capitalize">
-              {plan} Plan
+    <div className="min-h-screen bg-gray-50 flex font-['Inter']">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col min-h-screen fixed left-0 top-0">
+        {/* Logo */}
+        <div className="px-5 py-5 border-b border-gray-100">
+          <img src={logo} alt="Tydeline" className="h-8 w-auto" />
+        </div>
+
+        {/* Nav tabs */}
+        <nav className="flex-1 px-3 py-4 space-y-1">
+          <button
+            onClick={() => setActiveTab("upcoming")}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+              activeTab === "upcoming"
+                ? "bg-blue-50 text-[#0753BB]"
+                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            }`}
+          >
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Upcoming
+            <span className={`ml-auto text-xs font-semibold px-2 py-0.5 rounded-full ${
+              activeTab === "upcoming" ? "bg-[#0753BB] text-white" : "bg-gray-100 text-gray-500"
+            }`}>
+              {upcomingCount}
             </span>
-          </div>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("completed")}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+              activeTab === "completed"
+                ? "bg-blue-50 text-[#0753BB]"
+                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            }`}
+          >
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Completed
+            <span className={`ml-auto text-xs font-semibold px-2 py-0.5 rounded-full ${
+              activeTab === "completed" ? "bg-[#0753BB] text-white" : "bg-gray-100 text-gray-500"
+            }`}>
+              {completedCount}
+            </span>
+          </button>
+        </nav>
+
+        {/* Bottom section — Settings & Sign Out */}
+        <div className="px-3 py-4 border-t border-gray-100 space-y-1">
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors cursor-pointer">
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Settings
+          </button>
+
           <button
             onClick={onLogout}
-            className="text-sm text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-[#0753BB] hover:bg-blue-50 transition-colors cursor-pointer"
           >
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
             Sign Out
           </button>
         </div>
-      </header>
+      </aside>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Stats row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-lg border border-gray-200 p-5">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Active Shipments</p>
-            <p className="text-2xl font-bold text-gray-900">3</p>
+      {/* Main content */}
+      <main className="flex-1 ml-64">
+        {/* Top bar */}
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="px-8 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-gray-900 capitalize">{activeTab} Shipments</h2>
+            <div className="relative w-72">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="text"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Search BL or vessel..."
+                className="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-md outline-none focus:border-gray-300 text-gray-700"
+              />
+            </div>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-5">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">In Transit</p>
-            <p className="text-2xl font-bold text-blue-600">1</p>
-          </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-5">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Alerts</p>
-            <p className="text-2xl font-bold text-amber-600">2</p>
-          </div>
-        </div>
+        </header>
 
-        {/* Search */}
-        <div className="mb-6">
-          <div className="relative max-w-sm">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="text"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search BL or vessel..."
-              className="w-full pl-9 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-md outline-none focus:border-gray-300 text-gray-700"
-            />
+        <div className="px-8 py-8">
+          {/* Stats row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <div className="bg-white rounded-lg border border-gray-200 p-5">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Active Shipments</p>
+              <p className="text-2xl font-bold text-gray-900">{SHIPMENTS.length}</p>
+            </div>
+            <div className="bg-white rounded-lg border border-gray-200 p-5">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">In Transit</p>
+              <p className="text-2xl font-bold text-blue-600">{SHIPMENTS.filter(s => s.status === "In Transit").length}</p>
+            </div>
+            <div className="bg-white rounded-lg border border-gray-200 p-5">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Alerts</p>
+              <p className="text-2xl font-bold text-amber-600">2</p>
+            </div>
           </div>
-        </div>
 
-        {/* Shipments table */}
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-100 bg-gray-50/50">
-                <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">BL Number</th>
-                <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Status</th>
-                <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider hidden md:table-cell">Route</th>
-                <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider hidden lg:table-cell">Vessel</th>
-                <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">ETA</th>
-                <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider hidden md:table-cell">Progress</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((s) => (
-                <tr key={s.bl} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                  <td className="px-5 py-4">
-                    <p className="font-semibold text-gray-900">{s.bl}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">{s.lastEvent}</p>
-                  </td>
-                  <td className="px-5 py-4">
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${s.statusColor}`}>
-                      {s.status}
-                    </span>
-                  </td>
-                  <td className="px-5 py-4 hidden md:table-cell">
-                    <span className="text-gray-700">{s.origin}</span>
-                    <span className="text-gray-400 mx-1.5">&rarr;</span>
-                    <span className="text-gray-700">{s.destination}</span>
-                  </td>
-                  <td className="px-5 py-4 text-gray-600 hidden lg:table-cell">{s.vessel}</td>
-                  <td className="px-5 py-4 font-medium text-gray-900">{s.eta}</td>
-                  <td className="px-5 py-4 hidden md:table-cell">
-                    <div className="flex items-center gap-2">
-                      <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full transition-all ${
-                            s.progress === 100 ? "bg-emerald-500" : "bg-[#0753BB]"
-                          }`}
-                          style={{ width: `${s.progress}%` }}
-                        />
-                      </div>
-                      <span className="text-xs text-gray-400">{s.progress}%</span>
-                    </div>
-                  </td>
+          {/* Shipments table */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100 bg-gray-50/50">
+                  <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">BL Number</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Status</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider hidden md:table-cell">Route</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider hidden lg:table-cell">Vessel</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">ETA</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider hidden md:table-cell">Progress</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-5 py-12 text-center text-sm text-gray-400">
+                      No {activeTab} shipments found.
+                    </td>
+                  </tr>
+                ) : (
+                  filtered.map((s) => (
+                    <tr key={s.bl} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                      <td className="px-5 py-4">
+                        <p className="font-semibold text-gray-900">{s.bl}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{s.lastEvent}</p>
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${s.statusColor}`}>
+                          {s.status}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 hidden md:table-cell">
+                        <span className="text-gray-700">{s.origin}</span>
+                        <span className="text-gray-400 mx-1.5">&rarr;</span>
+                        <span className="text-gray-700">{s.destination}</span>
+                      </td>
+                      <td className="px-5 py-4 text-gray-600 hidden lg:table-cell">{s.vessel}</td>
+                      <td className="px-5 py-4 font-medium text-gray-900">{s.eta}</td>
+                      <td className="px-5 py-4 hidden md:table-cell">
+                        <div className="flex items-center gap-2">
+                          <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all ${
+                                s.progress === 100 ? "bg-emerald-500" : "bg-[#0753BB]"
+                              }`}
+                              style={{ width: `${s.progress}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-400">{s.progress}%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

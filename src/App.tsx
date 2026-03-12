@@ -6,15 +6,13 @@ import Dashboard from './components/Dashboard'
 
 function App() {
   const [view, setView] = useState<"landing" | "dashboard">("landing");
-  const [plan, setPlan] = useState("");
 
   if (view === "dashboard") {
     return (
       <Dashboard
-        plan={plan}
+        plan=""
         onLogout={() => {
           setView("landing");
-          setPlan("");
         }}
       />
     );
@@ -24,8 +22,7 @@ function App() {
     <div className="bg-white antialiased font-['Inter']">
       <Header />
       <Hero
-        onSubscribe={(selectedPlan) => {
-          setPlan(selectedPlan);
+        onSubscribe={() => {
           setView("dashboard");
         }}
       />
