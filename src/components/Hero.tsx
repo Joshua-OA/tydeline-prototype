@@ -61,7 +61,7 @@ export default function Hero({ onSubscribe }: HeroProps) {
       <main className="relative max-w-7xl mx-auto px-12 min-h-[calc(100vh-65px)] flex flex-col lg:flex-row items-center justify-center">
         <div className="lg:w-1/2 z-10">
           <div className="max-w-lg">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6">
+            <h1 className="mt-5 lg:mt-0 text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6">
               Smarter Tracking for Importers.
             </h1>
             <p className="text-gray-500 text-lg mb-10 max-w-md leading-relaxed">
@@ -274,6 +274,7 @@ export default function Hero({ onSubscribe }: HeroProps) {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
                         <span className="text-sm font-bold text-gray-900">TANJUNG PELEPAS</span>
+                        <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5">TRANSHIPMENT</span>
                       </div>
                       <p className="text-xs text-gray-500 ml-4 mb-1">Pelabuhan Tanjung Pelepas Terminal</p>
                       <div className="ml-4 space-y-1">
@@ -284,6 +285,10 @@ export default function Hero({ onSubscribe }: HeroProps) {
                         <div className="flex justify-between text-xs">
                           <span className="text-gray-600">Discharge (MAERSK RIO DELTA / 604N)</span>
                           <span className="text-gray-900 font-medium">22 Feb 2026 06:13</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs">
+                          <span className="text-red-600 font-medium">Delayed at port — 2 days</span>
+                          <span className="text-[10px] text-red-500 bg-red-50 border border-red-200 rounded px-1.5 py-0.5 font-medium">DELAY</span>
                         </div>
                         <div className="flex justify-between text-xs">
                           <span className="text-gray-600">Load on X-PRESS BARDSEY / 607W</span>
@@ -324,7 +329,7 @@ export default function Hero({ onSubscribe }: HeroProps) {
                     onClick={() => setPopupStep("chooseNotification")}
                     className="px-4 py-2 text-sm font-medium text-white bg-[#0753BB] rounded-md hover:bg-[#064299] transition-colors cursor-pointer"
                   >
-                    Create Account
+                    Set Reminders
                   </button>
                 </div>
               </>
